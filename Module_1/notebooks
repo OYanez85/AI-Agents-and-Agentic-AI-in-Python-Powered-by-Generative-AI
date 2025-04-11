@@ -4,7 +4,7 @@
   "metadata": {
     "colab": {
       "provenance": [],
-      "authorship_tag": "ABX9TyPWePcMWCFHdWiYFjiy9+fO",
+      "authorship_tag": "ABX9TyNakUEQbfSa9mX5t6CbVlt/",
       "include_colab_link": true
     },
     "kernelspec": {
@@ -103,41 +103,134 @@
     {
       "cell_type": "code",
       "source": [
-        "import openai\n",
-        "openai.api_key = os.environ['OPENAI_API_KEY']\n"
+        "!pip install -U litellm\n"
       ],
       "metadata": {
-        "id": "wqpbbyRTj68S"
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "q558gdH8v1yZ",
+        "outputId": "832717bb-26e1-4529-d5d2-c38c967bb6ee"
       },
-      "execution_count": null,
-      "outputs": []
+      "execution_count": 18,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Collecting litellm\n",
+            "  Downloading litellm-1.65.7-py3-none-any.whl.metadata (36 kB)\n",
+            "Requirement already satisfied: aiohttp in /usr/local/lib/python3.11/dist-packages (from litellm) (3.11.15)\n",
+            "Requirement already satisfied: click in /usr/local/lib/python3.11/dist-packages (from litellm) (8.1.8)\n",
+            "Requirement already satisfied: httpx>=0.23.0 in /usr/local/lib/python3.11/dist-packages (from litellm) (0.28.1)\n",
+            "Requirement already satisfied: importlib-metadata>=6.8.0 in /usr/local/lib/python3.11/dist-packages (from litellm) (8.6.1)\n",
+            "Requirement already satisfied: jinja2<4.0.0,>=3.1.2 in /usr/local/lib/python3.11/dist-packages (from litellm) (3.1.6)\n",
+            "Requirement already satisfied: jsonschema<5.0.0,>=4.22.0 in /usr/local/lib/python3.11/dist-packages (from litellm) (4.23.0)\n",
+            "Requirement already satisfied: openai>=1.68.2 in /usr/local/lib/python3.11/dist-packages (from litellm) (1.70.0)\n",
+            "Requirement already satisfied: pydantic<3.0.0,>=2.0.0 in /usr/local/lib/python3.11/dist-packages (from litellm) (2.11.2)\n",
+            "Collecting python-dotenv>=0.2.0 (from litellm)\n",
+            "  Downloading python_dotenv-1.1.0-py3-none-any.whl.metadata (24 kB)\n",
+            "Collecting tiktoken>=0.7.0 (from litellm)\n",
+            "  Downloading tiktoken-0.9.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.7 kB)\n",
+            "Requirement already satisfied: tokenizers in /usr/local/lib/python3.11/dist-packages (from litellm) (0.21.1)\n",
+            "Requirement already satisfied: anyio in /usr/local/lib/python3.11/dist-packages (from httpx>=0.23.0->litellm) (4.9.0)\n",
+            "Requirement already satisfied: certifi in /usr/local/lib/python3.11/dist-packages (from httpx>=0.23.0->litellm) (2025.1.31)\n",
+            "Requirement already satisfied: httpcore==1.* in /usr/local/lib/python3.11/dist-packages (from httpx>=0.23.0->litellm) (1.0.7)\n",
+            "Requirement already satisfied: idna in /usr/local/lib/python3.11/dist-packages (from httpx>=0.23.0->litellm) (3.10)\n",
+            "Requirement already satisfied: h11<0.15,>=0.13 in /usr/local/lib/python3.11/dist-packages (from httpcore==1.*->httpx>=0.23.0->litellm) (0.14.0)\n",
+            "Requirement already satisfied: zipp>=3.20 in /usr/local/lib/python3.11/dist-packages (from importlib-metadata>=6.8.0->litellm) (3.21.0)\n",
+            "Requirement already satisfied: MarkupSafe>=2.0 in /usr/local/lib/python3.11/dist-packages (from jinja2<4.0.0,>=3.1.2->litellm) (3.0.2)\n",
+            "Requirement already satisfied: attrs>=22.2.0 in /usr/local/lib/python3.11/dist-packages (from jsonschema<5.0.0,>=4.22.0->litellm) (25.3.0)\n",
+            "Requirement already satisfied: jsonschema-specifications>=2023.03.6 in /usr/local/lib/python3.11/dist-packages (from jsonschema<5.0.0,>=4.22.0->litellm) (2024.10.1)\n",
+            "Requirement already satisfied: referencing>=0.28.4 in /usr/local/lib/python3.11/dist-packages (from jsonschema<5.0.0,>=4.22.0->litellm) (0.36.2)\n",
+            "Requirement already satisfied: rpds-py>=0.7.1 in /usr/local/lib/python3.11/dist-packages (from jsonschema<5.0.0,>=4.22.0->litellm) (0.24.0)\n",
+            "Requirement already satisfied: distro<2,>=1.7.0 in /usr/local/lib/python3.11/dist-packages (from openai>=1.68.2->litellm) (1.9.0)\n",
+            "Requirement already satisfied: jiter<1,>=0.4.0 in /usr/local/lib/python3.11/dist-packages (from openai>=1.68.2->litellm) (0.9.0)\n",
+            "Requirement already satisfied: sniffio in /usr/local/lib/python3.11/dist-packages (from openai>=1.68.2->litellm) (1.3.1)\n",
+            "Requirement already satisfied: tqdm>4 in /usr/local/lib/python3.11/dist-packages (from openai>=1.68.2->litellm) (4.67.1)\n",
+            "Requirement already satisfied: typing-extensions<5,>=4.11 in /usr/local/lib/python3.11/dist-packages (from openai>=1.68.2->litellm) (4.13.1)\n",
+            "Requirement already satisfied: annotated-types>=0.6.0 in /usr/local/lib/python3.11/dist-packages (from pydantic<3.0.0,>=2.0.0->litellm) (0.7.0)\n",
+            "Requirement already satisfied: pydantic-core==2.33.1 in /usr/local/lib/python3.11/dist-packages (from pydantic<3.0.0,>=2.0.0->litellm) (2.33.1)\n",
+            "Requirement already satisfied: typing-inspection>=0.4.0 in /usr/local/lib/python3.11/dist-packages (from pydantic<3.0.0,>=2.0.0->litellm) (0.4.0)\n",
+            "Requirement already satisfied: regex>=2022.1.18 in /usr/local/lib/python3.11/dist-packages (from tiktoken>=0.7.0->litellm) (2024.11.6)\n",
+            "Requirement already satisfied: requests>=2.26.0 in /usr/local/lib/python3.11/dist-packages (from tiktoken>=0.7.0->litellm) (2.32.3)\n",
+            "Requirement already satisfied: aiohappyeyeballs>=2.3.0 in /usr/local/lib/python3.11/dist-packages (from aiohttp->litellm) (2.6.1)\n",
+            "Requirement already satisfied: aiosignal>=1.1.2 in /usr/local/lib/python3.11/dist-packages (from aiohttp->litellm) (1.3.2)\n",
+            "Requirement already satisfied: frozenlist>=1.1.1 in /usr/local/lib/python3.11/dist-packages (from aiohttp->litellm) (1.5.0)\n",
+            "Requirement already satisfied: multidict<7.0,>=4.5 in /usr/local/lib/python3.11/dist-packages (from aiohttp->litellm) (6.3.2)\n",
+            "Requirement already satisfied: propcache>=0.2.0 in /usr/local/lib/python3.11/dist-packages (from aiohttp->litellm) (0.3.1)\n",
+            "Requirement already satisfied: yarl<2.0,>=1.17.0 in /usr/local/lib/python3.11/dist-packages (from aiohttp->litellm) (1.18.3)\n",
+            "Requirement already satisfied: huggingface-hub<1.0,>=0.16.4 in /usr/local/lib/python3.11/dist-packages (from tokenizers->litellm) (0.30.1)\n",
+            "Requirement already satisfied: filelock in /usr/local/lib/python3.11/dist-packages (from huggingface-hub<1.0,>=0.16.4->tokenizers->litellm) (3.18.0)\n",
+            "Requirement already satisfied: fsspec>=2023.5.0 in /usr/local/lib/python3.11/dist-packages (from huggingface-hub<1.0,>=0.16.4->tokenizers->litellm) (2025.3.2)\n",
+            "Requirement already satisfied: packaging>=20.9 in /usr/local/lib/python3.11/dist-packages (from huggingface-hub<1.0,>=0.16.4->tokenizers->litellm) (24.2)\n",
+            "Requirement already satisfied: pyyaml>=5.1 in /usr/local/lib/python3.11/dist-packages (from huggingface-hub<1.0,>=0.16.4->tokenizers->litellm) (6.0.2)\n",
+            "Requirement already satisfied: charset-normalizer<4,>=2 in /usr/local/lib/python3.11/dist-packages (from requests>=2.26.0->tiktoken>=0.7.0->litellm) (3.4.1)\n",
+            "Requirement already satisfied: urllib3<3,>=1.21.1 in /usr/local/lib/python3.11/dist-packages (from requests>=2.26.0->tiktoken>=0.7.0->litellm) (2.3.0)\n",
+            "Downloading litellm-1.65.7-py3-none-any.whl (7.5 MB)\n",
+            "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m7.5/7.5 MB\u001b[0m \u001b[31m58.5 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25hDownloading python_dotenv-1.1.0-py3-none-any.whl (20 kB)\n",
+            "Downloading tiktoken-0.9.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.2 MB)\n",
+            "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m1.2/1.2 MB\u001b[0m \u001b[31m43.7 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25hInstalling collected packages: python-dotenv, tiktoken, litellm\n",
+            "Successfully installed litellm-1.65.7 python-dotenv-1.1.0 tiktoken-0.9.0\n"
+          ]
+        }
+      ]
     },
     {
       "cell_type": "code",
       "source": [
-        "from google.colab import files\n",
-        "files.download('Programmatic_Prompting.ipynb')\n"
+        "from litellm import completion\n",
+        "from typing import List, Dict\n",
+        "\n",
+        "\n",
+        "def generate_response(messages: List[Dict]) -> str:\n",
+        "    \"\"\"Call LLM to get response\"\"\"\n",
+        "    response = completion(\n",
+        "        model=\"openai/gpt-4o\",\n",
+        "        messages=messages,\n",
+        "        max_tokens=1024\n",
+        "    )\n",
+        "    return response.choices[0].message.content\n",
+        "\n",
+        "\n",
+        "messages = [\n",
+        "    {\"role\": \"system\", \"content\": \"You are an expert software engineer that prefers functional programming.\"},\n",
+        "    {\"role\": \"user\", \"content\": \"Write a function to swap the keys and values in a dictionary.\"}\n",
+        "]\n",
+        "\n",
+        "response = generate_response(messages)\n",
+        "print(response)"
       ],
       "metadata": {
         "colab": {
-          "base_uri": "https://localhost:8080/",
-          "height": 280
+          "base_uri": "https://localhost:8080/"
         },
-        "id": "mmEr9gKUrLV5",
-        "outputId": "2c1d39d2-46ed-4305-8a04-a69395b62125"
+        "id": "ufT3_uK-vmBU",
+        "outputId": "fceb8bdc-36a2-4771-be80-86749498a84e"
       },
-      "execution_count": null,
+      "execution_count": 19,
       "outputs": [
         {
-          "output_type": "error",
-          "ename": "FileNotFoundError",
-          "evalue": "Cannot find file: Programmatic_Prompting.ipynb",
-          "traceback": [
-            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
-            "\u001b[0;31mFileNotFoundError\u001b[0m                         Traceback (most recent call last)",
-            "\u001b[0;32m<ipython-input-1-bf9dbb4048c8>\u001b[0m in \u001b[0;36m<cell line: 0>\u001b[0;34m()\u001b[0m\n\u001b[1;32m      1\u001b[0m \u001b[0;32mfrom\u001b[0m \u001b[0mgoogle\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mcolab\u001b[0m \u001b[0;32mimport\u001b[0m \u001b[0mfiles\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 2\u001b[0;31m \u001b[0mfiles\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mdownload\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m'Programmatic_Prompting.ipynb'\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
-            "\u001b[0;32m/usr/local/lib/python3.11/dist-packages/google/colab/files.py\u001b[0m in \u001b[0;36mdownload\u001b[0;34m(filename)\u001b[0m\n\u001b[1;32m    231\u001b[0m   \u001b[0;32mif\u001b[0m \u001b[0;32mnot\u001b[0m \u001b[0m_os\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mpath\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mexists\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mfilename\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    232\u001b[0m     \u001b[0mmsg\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0;34m'Cannot find file: {}'\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mformat\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mfilename\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 233\u001b[0;31m     \u001b[0;32mraise\u001b[0m \u001b[0mFileNotFoundError\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mmsg\u001b[0m\u001b[0;34m)\u001b[0m  \u001b[0;31m# pylint: disable=undefined-variable\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    234\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    235\u001b[0m   \u001b[0mcomm_manager\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0m_IPython\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mget_ipython\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mkernel\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mcomm_manager\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
-            "\u001b[0;31mFileNotFoundError\u001b[0m: Cannot find file: Programmatic_Prompting.ipynb"
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "To swap keys and values in a dictionary using a functional programming approach in Python, you can use functions like `map` and comprehensions to create a readable and efficient solution. Here's a simple way to achieve this:\n",
+            "\n",
+            "```python\n",
+            "def swap_dict(d):\n",
+            "    return {v: k for k, v in d.items()}\n",
+            "\n",
+            "# Example usage:\n",
+            "original_dict = {'a': 1, 'b': 2, 'c': 3}\n",
+            "swapped_dict = swap_dict(original_dict)\n",
+            "print(swapped_dict)  # Output: {1: 'a', 2: 'b', 3: 'c'}\n",
+            "```\n",
+            "\n",
+            "**Points to consider:**\n",
+            "- This function assumes that the original dictionary `d` has unique values since, after swapping, a value from the original dictionary becomes a key, and dictionary keys must be unique.\n",
+            "- If the `d` dictionary contains non-unique values, the resulting keys will overwrite each other, leading to data loss for those entries. If handling such cases is necessary, additional logic would be needed to maintain a collection of keys for each unique value.\n"
           ]
         }
       ]
