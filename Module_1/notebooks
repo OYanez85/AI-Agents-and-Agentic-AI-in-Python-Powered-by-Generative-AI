@@ -1,0 +1,146 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyPWePcMWCFHdWiYFjiy9+fO",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/OYanez85/AI-Agents-and-Agentic-AI-in-Python-Powered-by-Generative-AI/blob/main/Module_1/notebooks\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "Jy5Y3JWUisY1",
+        "outputId": "f014ae57-c1dc-49e5-f934-693efcb56049"
+      },
+      "outputs": [
+        {
+          "name": "stdout",
+          "output_type": "stream",
+          "text": [
+            "🔑 Enter your OpenAI API key: ··········\n"
+          ]
+        }
+      ],
+      "source": [
+        "import os\n",
+        "from getpass import getpass\n",
+        "\n",
+        "os.environ['OPENAI_API_KEY'] = getpass(\"🔑 Enter your OpenAI API key: \")\n",
+        "\n",
+        "\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from openai import OpenAI\n",
+        "import os\n",
+        "\n",
+        "client = OpenAI(api_key=os.environ['OPENAI_API_KEY'])\n",
+        "\n",
+        "\n"
+      ],
+      "metadata": {
+        "id": "fRsPEKyii4SY"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "response = client.chat.completions.create(\n",
+        "    model=\"gpt-3.5-turbo\",  # or \"gpt-4\"\n",
+        "    messages=[\n",
+        "        {\"role\": \"user\", \"content\": \"Explain the concept of agentic AI in simple terms.\"}\n",
+        "    ]\n",
+        ")\n",
+        "\n",
+        "print(response.choices[0].message.content)\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "vOVrc0LqstFm",
+        "outputId": "03286ac1-472c-4718-ea3b-68794ae0eb3d"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Agentic AI is a type of artificial intelligence that is designed to act on behalf of a person or organization, similar to a human agent. This means that the AI has the ability to make decisions and take actions autonomously, without needing constant input or supervision from humans. Agentic AI is often used in situations where quick and accurate decision-making is important, such as in self-driving cars or financial trading algorithms.\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import openai\n",
+        "openai.api_key = os.environ['OPENAI_API_KEY']\n"
+      ],
+      "metadata": {
+        "id": "wqpbbyRTj68S"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from google.colab import files\n",
+        "files.download('Programmatic_Prompting.ipynb')\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 280
+        },
+        "id": "mmEr9gKUrLV5",
+        "outputId": "2c1d39d2-46ed-4305-8a04-a69395b62125"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "error",
+          "ename": "FileNotFoundError",
+          "evalue": "Cannot find file: Programmatic_Prompting.ipynb",
+          "traceback": [
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+            "\u001b[0;31mFileNotFoundError\u001b[0m                         Traceback (most recent call last)",
+            "\u001b[0;32m<ipython-input-1-bf9dbb4048c8>\u001b[0m in \u001b[0;36m<cell line: 0>\u001b[0;34m()\u001b[0m\n\u001b[1;32m      1\u001b[0m \u001b[0;32mfrom\u001b[0m \u001b[0mgoogle\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mcolab\u001b[0m \u001b[0;32mimport\u001b[0m \u001b[0mfiles\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 2\u001b[0;31m \u001b[0mfiles\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mdownload\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m'Programmatic_Prompting.ipynb'\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+            "\u001b[0;32m/usr/local/lib/python3.11/dist-packages/google/colab/files.py\u001b[0m in \u001b[0;36mdownload\u001b[0;34m(filename)\u001b[0m\n\u001b[1;32m    231\u001b[0m   \u001b[0;32mif\u001b[0m \u001b[0;32mnot\u001b[0m \u001b[0m_os\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mpath\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mexists\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mfilename\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    232\u001b[0m     \u001b[0mmsg\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0;34m'Cannot find file: {}'\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mformat\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mfilename\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 233\u001b[0;31m     \u001b[0;32mraise\u001b[0m \u001b[0mFileNotFoundError\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mmsg\u001b[0m\u001b[0;34m)\u001b[0m  \u001b[0;31m# pylint: disable=undefined-variable\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    234\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    235\u001b[0m   \u001b[0mcomm_manager\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0m_IPython\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mget_ipython\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mkernel\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mcomm_manager\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;31mFileNotFoundError\u001b[0m: Cannot find file: Programmatic_Prompting.ipynb"
+          ]
+        }
+      ]
+    }
+  ]
+}
